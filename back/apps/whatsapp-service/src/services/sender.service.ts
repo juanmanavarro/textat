@@ -4,6 +4,7 @@ import { CrypterService } from '@shared/services/crypter.service';
 import { LogsService } from '@shared/services/logs.service';
 import { UserService } from '@domain/user/user.service';
 import { TranslatorService } from './translator.service';
+import { MessageType } from './post-mapper.service';
 
 @Injectable()
 export class SenderService {
@@ -28,18 +29,25 @@ export class SenderService {
       return this.translatorService.t(m);
     }).join('\n');
 
-    this.text(user.phone, messageToSend);
+    this.send(user.phone, {
+      type: 'text',
+      text: { body: messageToSend },
+    });
   }
 
-  private async text(waId, message) {
+  async remindToUser(userId: string, message) {
+    const user = await this.userService.findOne({ _id: userId });
+    if ( !user ) throw new Error("[SenderService] User not found");
+
+    this.send(user.phone, this.messagePayload(message));
+  }
+
+  private async send(waId, messagePayload) {
     try {
       const { data } = await axios.post(`https://graph.facebook.com/v15.0/${process.env.WHATSAPP_PHONE_ID}/messages`, {
-        messaging_product: "whatsapp",
+        messaging_product: 'whatsapp',
         to: CrypterService.decrypt(waId),
-        type: "text",
-        text: {
-          body: message,
-        },
+        ...messagePayload,
       }, {
         headers: {
           Authorization: `Bearer ${process.env.WHATSAPP_ACCOUNT_TOKEN}`,
@@ -47,44 +55,30 @@ export class SenderService {
         }
       });
 
-      this.logsService.message('sender.text', { ...data, text: message });
+      // this.logsService.message('sender.text', { ...data, text: message });
 
       return data;
     } catch (error) {
-      console.log('SenderService.text', error);
       console.log(error.response.data.error);
     }
   }
 
-  async sendPost(waId, post) {
-    try {
-      await axios.post(
-        `https://graph.facebook.com/v15.0/${process.env.WHATSAPP_PHONE_ID}/messages`,
-        this.messagePayload(waId, post),
-        {
-          headers: {
-            Authorization: `Bearer ${process.env.WHATSAPP_ACCOUNT_TOKEN}`,
-            'Content-Type': 'application/json',
-          }
-        });
-    } catch (error) {
-      console.log('SenderService.sendPost', error);
-      console.log(error.response.data.error);
+  private messagePayload(message) {
+    switch (message.type) {
+      case MessageType.IMAGE:
+        return {
+          type: 'image',
+          image: { id: message.data.id },
+        }
+        break;
+      default:
+        return {
+          type: 'text',
+          text: {
+            body: message.text,
+          },
+        }
+        break;
     }
-  }
-
-  private messagePayload(waId, post) {
-    const payload = {
-      messaging_product: "whatsapp",
-      to: waId,
-      type: post.type,
-      text: {
-        body: post.message,
-      },
-    };
-    if ( post.type !== 'text' ) {
-      payload['id'] = post.content.id;
-    }
-    return payload;
   }
 }
