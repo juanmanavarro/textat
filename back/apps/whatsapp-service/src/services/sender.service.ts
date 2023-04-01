@@ -52,7 +52,7 @@ export class SenderService {
         }
       });
 
-      // this.logsService.message('sender.text', { ...data, text: message });
+      this.logsService.message('sender.text', { ...data, meta: messagePayload });
 
       return data;
     } catch (error) {
