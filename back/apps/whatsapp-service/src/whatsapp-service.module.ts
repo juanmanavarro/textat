@@ -21,7 +21,6 @@ import { CommandListener } from './listeners/command.listener';
 import { ConversationListener } from './listeners/conversation.listener';
 import { ReactionListener } from './listeners/reaction.listener';
 import { WhatsappService } from './whatsapp.service';
-import { PocketCommand } from './commands/pocket.command';
 import { ChangePasswordConversation } from './conversations/change-password.conversation';
 import { WhatsappServiceSubscriber } from './whatsapp-service.subscriber';
 import { RecoverPasswordConversation } from './conversations/recover-password.conversation';
@@ -29,7 +28,6 @@ import { CommanderService } from './services/commander.service';
 import { SharedModule } from '@shared';
 import { TrialTask } from './tasks/trial.task';
 import { ReminderHandler } from './handlers/reminder.handler';
-import { ContactCommand } from './commands/contact.command';
 import { LocalizationModule } from "@squareboat/nestjs-localization";
 import { TranslatorService } from './services/translator.service';
 import { HelpMessage } from './messages/help.message';
@@ -64,8 +62,6 @@ import { LanguageCommand } from './commands/language.command';
     RecoverPasswordConversation,
     // commands
     HelpCommand,
-    PocketCommand,
-    ContactCommand,
     LanguageCommand,
     // tasks
     ReminderTask,

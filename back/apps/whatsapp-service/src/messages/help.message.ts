@@ -17,15 +17,6 @@ export class HelpMessage {
       '',
       FormatService.command(this.translatorService.t('help'), true),
       'To display this help',
-      '',
-      FormatService.command('pocket', true),
-      'To access your TextPocket',
-      '',
-      FormatService.command(this.translatorService.t('password'), true),
-      'To change the password',
-      '',
-      FormatService.command(this.translatorService.t('contact'), true),
-      'To contact us',
     ];
   }
 }

@@ -7,9 +7,8 @@
               class="fs-30 text-primary"
               style="font-family: 'Righteous', cursive;"
               to="/"
-            >TextPocket</NuxtLink>
+            >TextAt</NuxtLink>
           </div>
-          <a href="https://app.textpocket.com" target="_blank">{{ $t('Sign in') }}</a>
         </div>
       </nav>
     </header>
