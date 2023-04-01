@@ -2,16 +2,16 @@ import { Injectable } from '@nestjs/common';
 import { MediaService } from './media.service';
 import { UrlService } from './url.service';
 
-export enum PostType {
-  AUDIO = 'audio',
-  IMAGE = 'image',
-  VIDEO = 'video',
-  VCARD = 'vcard',
+export enum MessageType {
+  AUDIO    = 'audio',
+  IMAGE    = 'image',
+  VIDEO    = 'video',
+  VCARD    = 'vcard',
   DOCUMENT = 'document',
   LOCATION = 'location',
-  LINK = 'link',
-  TEXT = 'text',
-  UNKNOWN = 'unknown',
+  LINK     = 'link',
+  TEXT     = 'text',
+  UNKNOWN  = 'unknown',
 };
 
 @Injectable()
@@ -23,8 +23,8 @@ export class PostMapperService {
   async map(user, message) {
     if ( !message.id ) return [];
 
-    if ( message.type === PostType.TEXT && UrlService.extractUrl(message.text.body) ) {
-      message.type = PostType.LINK;
+    if ( message.type === MessageType.TEXT && UrlService.extractUrl(message.text.body) ) {
+      message.type = MessageType.LINK;
     }
 
     const post = {
@@ -38,7 +38,7 @@ export class PostMapperService {
       return map.map(m => ({ ...m, ...post }));
     } catch (error) {
       console.log(`${message.type}Mapper`, error.message);
-      return [{ ...post, type: PostType.UNKNOWN, ...this.unknownMapper() }];
+      return [{ ...post, type: MessageType.UNKNOWN, ...this.unknownMapper() }];
     }
   }
 
