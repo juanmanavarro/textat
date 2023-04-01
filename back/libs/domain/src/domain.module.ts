@@ -10,6 +10,8 @@ import { JwtStrategy } from './user/strategies/jwt.strategy';
 import { UserService } from './user/user.service';
 import { PostService } from './post/post.service';
 import { Post, PostSchema } from './post/schemas/post.schema';
+import { Message, MessageSchema } from './message/message.schema';
+import { MessageService } from './message/message.service';
 
 @Module({
   imports: [
@@ -27,6 +29,7 @@ import { Post, PostSchema } from './post/schemas/post.schema';
     MongooseModule.forFeature([
       { name: User.name, schema: UserSchema },
       { name: Post.name, schema: PostSchema },
+      { name: Message.name, schema: MessageSchema },
     ]),
     PassportModule,
     JwtModule.registerAsync({
@@ -45,11 +48,13 @@ import { Post, PostSchema } from './post/schemas/post.schema';
     AuthService,
     JwtStrategy,
     PostService,
+    MessageService,
   ],
   exports: [
     UserService,
     AuthService,
     PostService,
+    MessageService,
   ],
 })
 export class DomainModule {}
