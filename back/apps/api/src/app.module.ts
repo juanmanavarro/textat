@@ -5,7 +5,6 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { SharedModule } from '@shared';
 import configuration from '../../../config';
 import { TransportModule } from '@transport/transport';
-import { SubscriptionModule } from './subscription/subscription.module';
 
 @Module({
   imports: [
@@ -17,7 +16,6 @@ import { SubscriptionModule } from './subscription/subscription.module';
     DomainModule,
     SharedModule,
     TransportModule,
-    SubscriptionModule,
   ],
 })
 export class AppModule {}
