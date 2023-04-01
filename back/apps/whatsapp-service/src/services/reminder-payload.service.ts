@@ -1,24 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { MessageType } from './post-mapper.service';
+import { FormatService } from './format.service';
 
 @Injectable()
 export class ReminderPayloadService {
   static fromMessage(message) {
-    switch (message.type) {
-      case MessageType.IMAGE:
-        return {
-          type: 'image',
-          image: { id: message.data.id },
-        }
-        break;
-      default:
-        return {
-          type: 'text',
-          text: {
-            body: message.text,
-          },
-        }
-        break;
+    return {
+      context: { message_id: message.whatsapp_id },
+      type: "text",
+      text: {
+        body: `⏰ ${FormatService.italic('Recordatorio')}`
+      },
     }
   }
 
