@@ -25,6 +25,11 @@ export class Message {
   @Prop({
     type: mongoose.Schema.Types.String,
   })
+  type;
+
+  @Prop({
+    type: mongoose.Schema.Types.String,
+  })
   text;
 
   @Prop({
