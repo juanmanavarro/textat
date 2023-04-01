@@ -8,8 +8,6 @@ import { AuthService } from './user/auth.service';
 import { User, UserSchema } from './user/schemas/user.schema';
 import { JwtStrategy } from './user/strategies/jwt.strategy';
 import { UserService } from './user/user.service';
-import { PostService } from './post/post.service';
-import { Post, PostSchema } from './post/schemas/post.schema';
 import { Message, MessageSchema } from './message/message.schema';
 import { MessageService } from './message/message.service';
 
@@ -28,7 +26,6 @@ import { MessageService } from './message/message.service';
     }),
     MongooseModule.forFeature([
       { name: User.name, schema: UserSchema },
-      { name: Post.name, schema: PostSchema },
       { name: Message.name, schema: MessageSchema },
     ]),
     PassportModule,
@@ -47,13 +44,11 @@ import { MessageService } from './message/message.service';
     UserService,
     AuthService,
     JwtStrategy,
-    PostService,
     MessageService,
   ],
   exports: [
     UserService,
     AuthService,
-    PostService,
     MessageService,
   ],
 })
