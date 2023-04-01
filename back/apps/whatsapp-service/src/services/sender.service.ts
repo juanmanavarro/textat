@@ -4,7 +4,7 @@ import { CrypterService } from '@shared/services/crypter.service';
 import { LogsService } from '@shared/services/logs.service';
 import { UserService } from '@domain/user/user.service';
 import { TranslatorService } from './translator.service';
-import { MessageType } from './post-mapper.service';
+import { ReminderPayloadService } from './reminder-payload.service';
 
 @Injectable()
 export class SenderService {
@@ -16,7 +16,7 @@ export class SenderService {
 
   async textToUser(userId: string, message: string | (string|[string, { [key: string]: string }])[]) {
     const user = await this.userService.findOne({ _id: userId });
-    if ( !user ) throw new Error("[SenderService] User not found");
+    if ( !user ) throw new Error("[SenderService.textToUser] User not found");
 
     this.translatorService.setLanguage(user.language);
 
@@ -29,17 +29,14 @@ export class SenderService {
       return this.translatorService.t(m);
     }).join('\n');
 
-    this.send(user.phone, {
-      type: 'text',
-      text: { body: messageToSend },
-    });
+    this.send(user.phone, ReminderPayloadService.fromString(messageToSend));
   }
 
   async remindToUser(userId: string, message) {
     const user = await this.userService.findOne({ _id: userId });
-    if ( !user ) throw new Error("[SenderService] User not found");
+    if ( !user ) throw new Error("[SenderService.remindToUser] User not found");
 
-    this.send(user.phone, this.messagePayload(message));
+    this.send(user.phone, ReminderPayloadService.fromMessage(message));
   }
 
   private async send(waId, messagePayload) {
@@ -60,25 +57,6 @@ export class SenderService {
       return data;
     } catch (error) {
       console.log(error.response.data.error);
-    }
-  }
-
-  private messagePayload(message) {
-    switch (message.type) {
-      case MessageType.IMAGE:
-        return {
-          type: 'image',
-          image: { id: message.data.id },
-        }
-        break;
-      default:
-        return {
-          type: 'text',
-          text: {
-            body: message.text,
-          },
-        }
-        break;
     }
   }
 }
