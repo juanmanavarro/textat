@@ -74,29 +74,6 @@ export class User {
 
 export const UserSchema = SchemaFactory.createForClass(User);
 
-UserSchema.virtual('subscription', {
-  ref: 'Subscription',
-  localField: '_id',
-  foreignField: 'user_id',
-  justOne: true,
-  options: {
-    match: { deleted_at: null },
-  },
-});
-
-UserSchema.virtual('contacts', {
-  ref: 'Contact',
-  localField: '_id',
-  foreignField: 'user_id',
-  options: { sort: { 'created_at': -1 } },
-});
-
-UserSchema.virtual('subscribed').get(function() {
-  return this['subscription']
-    ? this['subscription']?.meta.status !== 'canceled'
-    : false;
-});
-
 UserSchema.pre('save', async function (next) {
   if ( this.password || this.language ) return next();
   try {

@@ -29,12 +29,6 @@ export class WhatsappService {
   ) {}
 
   async listen(user, message) {
-    if ( !user.password ) {
-      return await this.conversationListener
-        .setConversation('registerConversation')
-        .handle(user, message);
-    }
-
     const { command, rest } = ParserService.command(message);
     if ( command ) {
       if ( commands[command] ) {

@@ -28,7 +28,7 @@ export class UserService {
         user = await this.userModel.create(query);
         user['is_new'] = true;
       }
-      return await user.populate('subscription');
+      return user;
     } catch (error) {
       console.error(error);
       return null;
