@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DateService } from '@shared/services/date.service';
 import { SenderService } from '../services/sender.service';
-import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class ReminderHandler {
@@ -10,18 +9,6 @@ export class ReminderHandler {
   ) {}
 
   async handle(user, post, schedule) {
-    if ( !user?.subscribed ) {
-      this.senderService.textToUser(
-        user.id,
-        [
-          'Sorry, this feature is only available in the Premium plan',
-          '',
-          [ 'You can activate it from here :url', { url: `${process.env.WEBAPP_HOST}/subscription` } ],
-        ],
-      );
-      return false;
-    }
-
     const scheduled_at = DateService.parse(schedule, user.timezone);
     if ( post['is_media'] ) {
       this.senderService.textToUser(
