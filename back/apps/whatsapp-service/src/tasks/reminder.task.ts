@@ -26,7 +26,7 @@ export class ReminderTask {
     });
     for (const m of messages) {
       const message = [
-        m['message'],
+        m.toReminder(),
         '',
         `⏰ _Reminder_`
       ];

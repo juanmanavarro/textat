@@ -36,6 +36,8 @@ export class Message {
     type: mongoose.Schema.Types.Date,
   })
   scheduled_at;
+
+  toReminder;
 }
 
 export const MessageSchema = SchemaFactory.createForClass(Message);
@@ -45,4 +47,8 @@ MessageSchema.virtual('user', {
   localField: 'user_id',
   foreignField: '_id',
   justOne: true,
+});
+
+MessageSchema.method('toReminder', function () {
+  return this.text;
 });
