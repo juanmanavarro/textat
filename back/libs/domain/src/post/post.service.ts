@@ -355,7 +355,7 @@ export class PostService {
         id,
         data,
         { new: true },
-      ).populate('category tags');
+      );
     } catch (error) {
       console.error(error);
     }

@@ -26,13 +26,8 @@ export class ReactionListener {
     this.transportService.send('post:updated', {
       id: user.id,
       data: {
-        post: await reactedPost.populate('tags category')
+        post: reactedPost
       },
-    });
-
-    this.transportService.send('category:created', {
-      id: user.id,
-      data: { category: await category?.populate('post_count') },
     });
 
     return true;

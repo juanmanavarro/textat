@@ -31,7 +31,7 @@ export class QuoteListener {
 
     this.transportService.send('post:updated', {
       id: user.id,
-      data: { post: await quoted.populate('tags category') },
+      data: { post: quoted },
     });
 
     return true;

@@ -38,11 +38,7 @@ export class UserService {
   async all() {
     try {
       return await this.userModel.find()
-        .sort('-registered_at')
-        .populate({
-          path: 'contacts',
-          populate: { path: 'admin' },
-        });
+        .sort('-registered_at');
     } catch (error) {
       console.error(error);
     }
