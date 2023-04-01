@@ -1,0 +1,28 @@
+.post {
+    .post-header {
+        // height: 50px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        word-break: break-all;
+        .post-title {
+            margin-top: -5px;
+        }
+        .post-subtitle {
+            font-size: 0.8rem;
+
+        }
+    }
+
+    .post-body {
+        // height: 185px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .post-footer {
+        // height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+}

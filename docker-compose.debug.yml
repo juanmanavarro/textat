@@ -1,0 +1,13 @@
+version: '3.5'
+
+services:
+  bullboard:
+    image: deadly0/bull-board
+    restart: always
+    ports:
+      - ${REDIS_BULLBOARD_PORT}:3000
+    environment:
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - REDIS_USE_TLS=true

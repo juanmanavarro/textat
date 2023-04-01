@@ -1,0 +1,10 @@
+front/node_modules
+.env*
+whatsapp-connector/.wwebjs_auth
+.vscode
+.db
+textpocket.code-workspace
+front/webapp2
+front/app
+textpocket-prod.yaml
+front/landing2

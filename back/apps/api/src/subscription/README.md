@@ -1,0 +1,2 @@
+# .env
+TRIAL_DAYS=
