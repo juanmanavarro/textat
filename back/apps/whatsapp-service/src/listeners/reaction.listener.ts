@@ -1,4 +1,3 @@
-import { CategoryService } from '@domain/category/category.service';
 import { PostService } from '@domain/post/post.service';
 import { Injectable } from '@nestjs/common';
 import { TransportService } from '@transport/transport';
@@ -7,7 +6,6 @@ import { TransportService } from '@transport/transport';
 export class ReactionListener {
   constructor(
     private readonly postService: PostService,
-    private readonly categoryService: CategoryService,
     private readonly transportService: TransportService,
   ) {}
 
@@ -21,13 +19,6 @@ export class ReactionListener {
     if ( !reactedPost ) return;
 
     let category = null;
-    if ( message.reaction.emoji ) {
-      category = await this.categoryService.firstOrCreate({
-        emoji: message.reaction.emoji,
-        user_id: user.id,
-      });
-      if ( !category ) return false;
-    }
 
     reactedPost.category = category?.id;
     await reactedPost.save();
