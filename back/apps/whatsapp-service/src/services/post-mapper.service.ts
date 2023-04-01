@@ -100,19 +100,19 @@ export class PostMapperService {
     const data = await UrlService.preview(message.text.body);
 
     return data.type === 'error' ? [{
-      text: data.description,
+      text: data.original_url,
       data: {
         host: data.provider_name,
         title: data.title,
-        link: data.original_url,
+        description: data.description,
         image: data.images[0]?.url || null,
       },
     }] : [{
-      text: data.description,
+      text: data.url,
       data: {
         host: data.provider_display,
         title: data.title,
-        link: data.url,
+        description: data.description,
         image: data.images[0]?.url || null,
       },
     }];
