@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class ParserService {
   static TAG_CHAR = '#';
-  static SCHEDULE_CHAR = '!';
+  static SCHEDULE_CHAR = '@';
   static COMMAND_CHAR = '/';
 
   static extractEntities(input: string) {
@@ -24,7 +24,7 @@ export class ParserService {
     let scheduleMatch = input.match(regex);
     if (scheduleMatch) {
       schedule = scheduleMatch[1];
-      matches.push(`!${schedule}`);
+      matches.push(`${ParserService.SCHEDULE_CHAR}${schedule}`);
     }
 
     let commandMatch = input.match(/\/(\w+)($|\s)/g);
