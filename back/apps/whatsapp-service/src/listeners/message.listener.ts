@@ -14,7 +14,10 @@ export class MessageListener {
   ) {}
 
   async handle(user, message) {
-    if ( message.type !== MessageType.TEXT ) return;
+    if ( message.type !== MessageType.TEXT ) {
+      this.senderService.textToUser(user.id, 'Por ahora solo puedo programar mensajes de texto');
+      return;
+    }
 
     const { temp, rest } = await this.parserService.parse(message.text.body);
     message.text.body = rest;
