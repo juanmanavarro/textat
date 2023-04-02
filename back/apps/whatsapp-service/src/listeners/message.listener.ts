@@ -38,7 +38,7 @@ export class MessageListener {
     } else {
       this.senderService.textToUser(
         user.id,
-        'No reconozco cuando quieres programar este último mensaje. Si quieres programarlo responde a el e indica cuando en la respuesta. Gracias!'
+        'No reconozco cuando quieres programar este último mensaje. Para programarlo responde a el e indica cuando quieres recibirlo. Gracias!'
       );
     }
 
