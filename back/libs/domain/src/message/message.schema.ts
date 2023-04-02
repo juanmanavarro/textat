@@ -42,6 +42,12 @@ export class Message {
     type: mongoose.Schema.Types.Date,
   })
   scheduled_at;
+
+  @Prop({
+    type: mongoose.Schema.Types.String,
+    default: null,
+  })
+  schedule;
 }
 
 export const MessageSchema = SchemaFactory.createForClass(Message);
