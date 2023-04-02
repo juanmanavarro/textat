@@ -4,6 +4,7 @@ import { CrypterService } from '@shared/services/crypter.service';
 import { LogsService } from '@shared/services/logs.service';
 import { UserService } from '@domain/user/user.service';
 import { TranslatorService } from './translator.service';
+import { ReminderPayloadService } from './reminder-payload.service';
 
 @Injectable()
 export class SenderService {
@@ -15,7 +16,7 @@ export class SenderService {
 
   async textToUser(userId: string, message: string | (string|[string, { [key: string]: string }])[]) {
     const user = await this.userService.findOne({ _id: userId });
-    if ( !user ) throw new Error("[SenderService] User not found");
+    if ( !user ) throw new Error("[SenderService.textToUser] User not found");
 
     this.translatorService.setLanguage(user.language);
 
@@ -28,18 +29,22 @@ export class SenderService {
       return this.translatorService.t(m);
     }).join('\n');
 
-    this.text(user.phone, messageToSend);
+    this.send(user.phone, ReminderPayloadService.fromString(messageToSend));
   }
 
-  private async text(waId, message) {
+  async remindToUser(userId: string, message) {
+    const user = await this.userService.findOne({ _id: userId });
+    if ( !user ) throw new Error("[SenderService.remindToUser] User not found");
+
+    this.send(user.phone, ReminderPayloadService.fromMessage(message));
+  }
+
+  private async send(waId, messagePayload) {
     try {
       const { data } = await axios.post(`https://graph.facebook.com/v15.0/${process.env.WHATSAPP_PHONE_ID}/messages`, {
-        messaging_product: "whatsapp",
+        messaging_product: 'whatsapp',
         to: CrypterService.decrypt(waId),
-        type: "text",
-        text: {
-          body: message,
-        },
+        ...messagePayload,
       }, {
         headers: {
           Authorization: `Bearer ${process.env.WHATSAPP_ACCOUNT_TOKEN}`,
@@ -47,44 +52,11 @@ export class SenderService {
         }
       });
 
-      this.logsService.message('sender.text', { ...data, text: message });
+      this.logsService.message('sender.text', { ...data, meta: messagePayload });
 
       return data;
     } catch (error) {
-      console.log('SenderService.text', error);
       console.log(error.response.data.error);
     }
-  }
-
-  async sendPost(waId, post) {
-    try {
-      await axios.post(
-        `https://graph.facebook.com/v15.0/${process.env.WHATSAPP_PHONE_ID}/messages`,
-        this.messagePayload(waId, post),
-        {
-          headers: {
-            Authorization: `Bearer ${process.env.WHATSAPP_ACCOUNT_TOKEN}`,
-            'Content-Type': 'application/json',
-          }
-        });
-    } catch (error) {
-      console.log('SenderService.sendPost', error);
-      console.log(error.response.data.error);
-    }
-  }
-
-  private messagePayload(waId, post) {
-    const payload = {
-      messaging_product: "whatsapp",
-      to: waId,
-      type: post.type,
-      text: {
-        body: post.message,
-      },
-    };
-    if ( post.type !== 'text' ) {
-      payload['id'] = post.content.id;
-    }
-    return payload;
   }
 }

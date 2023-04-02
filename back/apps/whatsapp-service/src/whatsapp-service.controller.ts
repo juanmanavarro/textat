@@ -19,11 +19,6 @@ export class WhatsappServiceController {
 
   @Post('/webhook')
   async webhook(@Body() body, @Response() res) {
-    // TODO webhooks dev and prod???
-    if ( body.entry[0].id !== process.env.WHATSAPP_ACCOUNT_ID ) {
-      return res.sendStatus(HttpStatus.OK);
-    }
-
     const { message, contact } = this.notificationService.parse(body);
     if ( !message || !contact ) return res.sendStatus(HttpStatus.OK);
 
@@ -37,11 +32,6 @@ export class WhatsappServiceController {
 
     if ( message.errors ) {
       console.log(message.errors);
-      return res.sendStatus(HttpStatus.OK);
-    }
-
-    // TODO remove on production
-    if ( process.env.TEST_PHONES && !process.env.TEST_PHONES?.split(',').includes(contact.wa_id) ) {
       return res.sendStatus(HttpStatus.OK);
     }
 

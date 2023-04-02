@@ -10,6 +10,7 @@ export class QuoteListener {
     private readonly messageService: MessageService,
     private readonly transportService: TransportService,
     private readonly reminderHandler: ReminderHandler,
+    private readonly parserService: ParserService,
   ) {}
 
   async handle(user, message) {
@@ -19,11 +20,8 @@ export class QuoteListener {
       .findOne({ whatsapp_id: message.context.id });
     if ( !quoted ) return false;
 
-    const {
-      schedule
-    } = ParserService.extractEntities(message.text.body);
-
-    if ( schedule ) await this.reminderHandler.handle(user, quoted, schedule);
+    const { temp } = await this.parserService.parse(message.text.body);
+    if ( temp ) await this.reminderHandler.handle(user, quoted, temp);
 
     await quoted.save();
 

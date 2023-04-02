@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { MessageType } from 'apps/whatsapp-service/src/services/post-mapper.service';
 import mongoose, { Document } from 'mongoose';
 
 export type MessageDocument = Message & Document;
@@ -42,7 +43,11 @@ export class Message {
   })
   scheduled_at;
 
-  toReminder;
+  @Prop({
+    type: mongoose.Schema.Types.String,
+    default: null,
+  })
+  schedule;
 }
 
 export const MessageSchema = SchemaFactory.createForClass(Message);
@@ -52,8 +57,4 @@ MessageSchema.virtual('user', {
   localField: 'user_id',
   foreignField: '_id',
   justOne: true,
-});
-
-MessageSchema.method('toReminder', function () {
-  return this.text;
 });

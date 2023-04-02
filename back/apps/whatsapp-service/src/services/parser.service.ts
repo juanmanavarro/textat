@@ -1,10 +1,47 @@
 import { Injectable } from '@nestjs/common';
+import { ErrorHandlerService } from '@shared/services/error-handler.service';
+import { Configuration, OpenAIApi } from 'openai';
 
 @Injectable()
 export class ParserService {
   static TAG_CHAR = '#';
-  static SCHEDULE_CHAR = '!';
+  static SCHEDULE_CHAR = '@';
   static COMMAND_CHAR = '/';
+
+  private openai;
+
+  constructor() {
+    const configuration = new Configuration({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
+    this.openai = new OpenAIApi(configuration);
+  }
+
+  async parse(message) {
+    try {
+      const response = await this.openai.createCompletion({
+        model: "text-davinci-003",
+        prompt: `Vamos a parsear frases. La respuesta debe de ser un JSON valido con las siguientes propiedades:
+          temp: la parte de la frase que se refiere al tiempo, es decir, la indicacion temporal de la frase
+          rest: la parte restante de la frase. Lo que queda al extraer la indicacion temporal de la frase original
+          frase: "tengo dentista mañana a las 10"
+          respuesta: { "temp": "mañana a las 10", "rest": "tengo dentista" }
+          frase: "ayer cene con mi amigo por la noche"
+          respuesta: { "temp": "ayer por la noche", "rest": "cene con mi amigo" }
+          frase: "${message}"
+          respuesta:`,
+        temperature: 0,
+        max_tokens: 2000,
+      });
+
+      const json = response.data.choices[0].text.trim();
+      console.log(json);
+
+      return JSON.parse(json);
+    } catch (error) {
+      ErrorHandlerService.handle(error);
+    }
+  }
 
   static extractEntities(input: string) {
     if ( !input ) return null;
@@ -24,7 +61,7 @@ export class ParserService {
     let scheduleMatch = input.match(regex);
     if (scheduleMatch) {
       schedule = scheduleMatch[1];
-      matches.push(`!${schedule}`);
+      matches.push(`${ParserService.SCHEDULE_CHAR}${schedule}`);
     }
 
     let commandMatch = input.match(/\/(\w+)($|\s)/g);

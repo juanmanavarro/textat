@@ -10,6 +10,7 @@ export class ReminderHandler {
 
   async handle(user, post, schedule) {
     const scheduled_at = DateService.parse(schedule, user.timezone);
+
     if ( post['is_media'] ) {
       this.senderService.textToUser(
         user.id,

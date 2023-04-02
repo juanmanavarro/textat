@@ -33,6 +33,8 @@ import { TranslatorService } from './services/translator.service';
 import { HelpMessage } from './messages/help.message';
 import * as path from 'node:path';
 import { LanguageCommand } from './commands/language.command';
+import { ReminderPayloadService } from './services/reminder-payload.service';
+import { MessageListener } from './listeners/message.listener';
 
 @Module({
   imports: [
@@ -85,6 +87,8 @@ import { LanguageCommand } from './commands/language.command';
     ReminderHandler,
     TranslatorService,
     HelpMessage,
+    ReminderPayloadService,
+    MessageListener,
   ],
 })
 export class WhatsappServiceModule {}

@@ -24,13 +24,9 @@ export class ReminderTask {
         $lt: date.startOf('minute').add(1, 'minute').toDate(),
       },
     });
-    for (const m of messages) {
-      const message = [
-        m.toReminder(),
-        '',
-        `⏰ _Reminder_`
-      ];
-      this.senderService.textToUser(m['user'].id, message);
+    for (const message of messages) {
+      this.senderService.remindToUser(message['user'].id, message);
+
       // TODO remove
       await new Promise(r => setTimeout(r, 500));
     }
