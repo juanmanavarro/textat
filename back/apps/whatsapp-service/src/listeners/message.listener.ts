@@ -15,7 +15,7 @@ export class MessageListener {
 
   async handle(user, message) {
     if ( message.type !== MessageType.TEXT ) {
-      this.senderService.textToUser(user.id, 'Por ahora solo puedo programar mensajes de texto');
+      this.senderService.textToUser(user.id, 'For now I can only schedule text messages');
       return;
     }
 
@@ -41,7 +41,7 @@ export class MessageListener {
     } else {
       this.senderService.textToUser(
         user.id,
-        'No reconozco cuando quieres programar este último mensaje. Para programarlo responde a el e indica cuando quieres recibirlo. Gracias!'
+        'I don\'t understand when you want to schedule this last message. To schedule it, please reply to it and indicate when you want to receive it. Thank you!'
       );
     }
 
