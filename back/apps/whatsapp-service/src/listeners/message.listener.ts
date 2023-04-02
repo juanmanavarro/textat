@@ -3,12 +3,14 @@ import { Injectable } from '@nestjs/common';
 import { ParserService } from '../services/parser.service';
 import { DateService } from '@shared/services/date.service';
 import { MessageType } from 'apps/whatsapp-service/src/services/post-mapper.service';
+import { SenderService } from '../services/sender.service';
 
 @Injectable()
 export class MessageListener {
   constructor(
     private readonly messageService: MessageService,
     private readonly parserService: ParserService,
+    private readonly senderService: SenderService,
   ) {}
 
   async handle(user, message) {
@@ -20,6 +22,24 @@ export class MessageListener {
     let scheduled_at = null;
     if ( temp ) {
       scheduled_at = DateService.parse(temp, user.timezone);
+
+      this.senderService.textToUser(
+        user.id,
+        [[
+          'Ok. Message scheduled for :date', {
+            date: DateService.toMessage(
+              scheduled_at.toDate(),
+              user.language,
+              user.timezone,
+            ),
+          },
+        ]]
+      );
+    } else {
+      this.senderService.textToUser(
+        user.id,
+        'No reconozco cuando quieres programar este último mensaje. Si quieres programarlo responde a el e indica cuando en la respuesta. Gracias!'
+      );
     }
 
     await this.messageService.firstOrCreate({
