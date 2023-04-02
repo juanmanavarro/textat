@@ -1,12 +1,11 @@
 import { CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
 import { CommandListener } from './listeners/command.listener';
-import { ConversationListener } from './listeners/conversation.listener';
 import { PostListener } from './listeners/post.listener';
 import { QuoteListener } from './listeners/quote.listener';
-import { ReactionListener } from './listeners/reaction.listener';
 import { ParserService } from './services/parser.service';
 import { Cache } from 'cache-manager';
 import { MessageFrom } from './whastapp-service.constants';
+import { MessageListener } from './listeners/message.listener';
 
 const commands = {
   '/contraseña': 'changePasswordConversation',
@@ -20,11 +19,9 @@ const privateCommands = {
 @Injectable()
 export class WhatsappService {
   constructor(
-    private readonly conversationListener: ConversationListener,
     private readonly quoteListener: QuoteListener,
     private readonly commandListener: CommandListener,
-    private readonly postListener: PostListener,
-    private readonly reactionListener: ReactionListener,
+    private readonly messageListener: MessageListener,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
 
@@ -40,16 +37,8 @@ export class WhatsappService {
       }
     }
 
-    const currentConversation = await this.cacheManager.get(user.whatsapp_id);
-    if ( currentConversation ) {
-      return await this.conversationListener
-        .setConversation(currentConversation)
-        .handle(user, message);
-    }
-
-    if ( message.reaction ) return await this.reactionListener.handle(user, message);
     if ( message.context ) return await this.quoteListener.handle(user, message);
 
-    return await this.postListener.handle(user, message);
+    return await this.messageListener.handle(user, message);
   }
 }
