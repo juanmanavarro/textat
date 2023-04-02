@@ -5,10 +5,11 @@ import { FormatService } from './format.service';
 export class ReminderPayloadService {
   static fromMessage(message) {
     return {
-      context: { message_id: message.whatsapp_id },
       type: "text",
       text: {
-        body: `⏰ ${FormatService.italic('Recordatorio')}`
+        body: `${message.text}
+
+⏰ ${FormatService.italic('Recordatorio')}`
       },
     }
   }
