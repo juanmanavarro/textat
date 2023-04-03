@@ -15,7 +15,10 @@ export class RepeatCommand {
     const { rest } = ParserService.command(message);
 
     const repeteable = await this.messageService.findOne({
-      whatsapp_id: message.context.id,
+      $or: [
+        { whatsapp_id: message.context.id, },
+        { related_message_ids: message.context.id },
+      ],
       scheduled_at: { $ne: null },
     });
     if ( !repeteable ) {
