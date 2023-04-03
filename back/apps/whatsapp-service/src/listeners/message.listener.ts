@@ -20,38 +20,38 @@ export class MessageListener {
     }
 
     const { temp, rest } = await this.parserService.parse(message.text.body);
-    message.text.body = rest;
 
-    let scheduled_at = null;
-    if ( temp ) {
-      scheduled_at = DateService.parse(temp, user.timezone);
+    const m = await this.messageService.firstOrCreate({
+      user_id: user.id,
+      text: rest,
+      whatsapp_id: message.id,
+      type: message.type,
+      schedule: temp || null,
+    });
 
-      this.senderService.textToUser(
-        user.id,
-        [[
-          'Ok. Message scheduled for :date', {
-            date: DateService.toMessage(
-              scheduled_at.toDate(),
-              user.language,
-              user.timezone,
-            ),
-          },
-        ]]
-      );
-    } else {
+    const scheduled_at = DateService.parse(temp, user.timezone);
+    if ( !temp || !scheduled_at ) {
       this.senderService.textToUser(
         user.id,
         'I don\'t understand when you want to schedule this last message. To schedule it, please reply to it and indicate when you want to receive it. Thank you!'
       );
+      return;
     }
 
-    await this.messageService.firstOrCreate({
-      user_id: user.id,
-      text: message.text.body,
-      whatsapp_id: message.id,
-      type: message.type,
-      schedule: temp || null,
-      scheduled_at: scheduled_at?.toDate(),
-    });
+    m.scheduled_at = scheduled_at.toDate();
+    await m.save();
+
+    this.senderService.textToUser(
+      user.id,
+      [[
+        'Ok. Message scheduled for :date', {
+          date: DateService.toMessage(
+            scheduled_at.toDate(),
+            user.language,
+            user.timezone,
+          ),
+        },
+      ]]
+    );
   }
 }

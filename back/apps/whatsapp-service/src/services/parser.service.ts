@@ -35,7 +35,6 @@ export class ParserService {
       });
 
       const json = response.data.choices[0].text.trim();
-      console.log(json);
 
       return JSON.parse(json);
     } catch (error) {
