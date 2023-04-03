@@ -51,7 +51,6 @@ export class Message {
 
   @Prop({
     type: mongoose.Schema.Types.String,
-    default: null,
   })
   repeat;
 

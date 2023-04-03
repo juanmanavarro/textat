@@ -4,12 +4,14 @@ import { FormatService } from '../services/format.service';
 import { Commands, InlineCommands } from '../whastapp-service.constants';
 import { RepeatCommand } from '../commands/repeat.command';
 import { ParserService } from 'apps/whatsapp-service/src/services/parser.service';
+import { StopCommand } from '../commands/stop.command';
 
 @Injectable()
 export class InlineCommandListener {
   constructor(
     private readonly senderService: SenderService,
     private readonly repeatCommand: RepeatCommand,
+    private readonly stopCommand: StopCommand,
   ) {}
 
   async handle(user, message) {
@@ -20,6 +22,9 @@ export class InlineCommandListener {
     }
     else if ( [InlineCommands.REPEAT].includes(command) ) {
       this.repeatCommand.execute(user, message);
+    }
+    else if ( ['stop'].includes(command) ) {
+      this.stopCommand.execute(user, message);
     }
     else {
       this.senderService.textToUser(user.id, [

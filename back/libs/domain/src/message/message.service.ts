@@ -35,6 +35,10 @@ export class MessageService {
           $gte: date.startOf('minute').toDate(),
           $lt: date.startOf('minute').add(1, 'minute').toDate(),
         },
+        $or: [
+          { repeat: { $exists: false } },
+          { repeat:{ $exists: true, $ne: null } },
+        ],
       }).populate('user');
     } catch (error) {
       console.error(error);
