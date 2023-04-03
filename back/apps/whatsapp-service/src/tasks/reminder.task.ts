@@ -22,8 +22,11 @@ export class ReminderTask {
       const reminder = await this.senderService.remind(message);
       if ( message.repeat ) {
         message.scheduled_at = DateService.dayjs(message.scheduled_at).add(1, 'minutes');
-        await message.save();
       }
+
+      message.reminder_ids.push(reminder.messages[0].id);
+      await message.save();
+
       // TODO remove
       await new Promise(r => setTimeout(r, 500));
     }

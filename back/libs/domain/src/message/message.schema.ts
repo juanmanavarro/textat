@@ -54,6 +54,11 @@ export class Message {
     default: null,
   })
   repeat;
+
+  @Prop({
+    type: [mongoose.Schema.Types.String],
+  })
+  reminder_ids;
 }
 
 export const MessageSchema = SchemaFactory.createForClass(Message);
