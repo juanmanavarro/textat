@@ -36,6 +36,7 @@ import { LanguageCommand } from './commands/language.command';
 import { ReminderPayloadService } from './services/reminder-payload.service';
 import { MessageListener } from './listeners/message.listener';
 import { InlineCommandListener } from './listeners/inline-command.listener';
+import { RepeatCommand } from './commands/repeat.command';
 
 @Module({
   imports: [
@@ -66,6 +67,7 @@ import { InlineCommandListener } from './listeners/inline-command.listener';
     // commands
     HelpCommand,
     LanguageCommand,
+    RepeatCommand,
     // tasks
     ReminderTask,
     TrialTask,

@@ -80,10 +80,10 @@ export class ParserService {
 
   static command(message) {
     if ( !message.text?.body?.startsWith('/') ) return {};
-    const command = message.text.body.split(' ')[0];
+    const command = message.text.body.split(' ')[0].slice(1);
     return {
       command,
-      rest: message.text.body.replace(command, '').trim(),
+      rest: message.text.body.replace(`/${command}`, '').trim(),
     };
   }
 }

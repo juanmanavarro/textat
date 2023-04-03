@@ -48,6 +48,12 @@ export class Message {
     default: null,
   })
   schedule;
+
+  @Prop({
+    type: mongoose.Schema.Types.String,
+    default: null,
+  })
+  repeat;
 }
 
 export const MessageSchema = SchemaFactory.createForClass(Message);
