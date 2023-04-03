@@ -27,9 +27,15 @@ export class MessageService {
     }
   }
 
-  async findReminders(query) {
+  async findReminders() {
+    const date = DateService.dayjs();
     try {
-      return await this.messageModel.find(query).populate('user');
+      return await this.messageModel.find({
+        scheduled_at: {
+          $gte: date.startOf('minute').toDate(),
+          $lt: date.startOf('minute').add(1, 'minute').toDate(),
+        },
+      }).populate('user');
     } catch (error) {
       console.error(error);
     }

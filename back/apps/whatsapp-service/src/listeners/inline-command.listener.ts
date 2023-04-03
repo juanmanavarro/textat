@@ -5,8 +5,12 @@ import { FormatService } from '../services/format.service';
 import { LanguageCommand } from '../commands/language.command';
 import { Commands, InlineCommands } from '../whastapp-service.constants';
 
+enum INLINE_COMMANDS {
+  REPEAT = 'repeat',
+};
+
 @Injectable()
-export class CommandListener {
+export class InlineCommandListener {
   constructor(
     private readonly senderService: SenderService,
     private readonly helpCommand: HelpCommand,
@@ -16,16 +20,13 @@ export class CommandListener {
   async handle(user, message) {
     const com = message.text.body.slice(1);
 
-    if ( Object.values(InlineCommands).includes(com) ) {
-      this.senderService.textToUser(user.id, 'This command only inline');
+    if ( Object.values(Commands).includes(com) ) {
+      this.senderService.textToUser(user.id, 'This command cant be used inline');
       return;
     }
 
-    if ( [Commands.AYUDA, Commands.HELP].includes(com) ) {
-      this.helpCommand.execute(user);
-    }
-    else if ( ['español', 'english'].includes(com) ) {
-      this.languageCommand.execute(user, com);
+    if ( [InlineCommands.REPEAT].includes(com) ) {
+      console.log('repeat');
     }
     else {
       this.senderService.textToUser(user.id, [

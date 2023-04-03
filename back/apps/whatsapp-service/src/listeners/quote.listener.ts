@@ -20,6 +20,11 @@ export class QuoteListener {
       .findOne({ whatsapp_id: message.context.id });
     if ( !quoted ) return false;
 
+    // if ( message.text.body.startsWith('/') ) {
+    //   this.commandHandler.handle(user, message);
+    //   return;
+    // }
+
     const { temp } = await this.parserService.parse(message.text.body);
     if ( temp ) await this.reminderHandler.handle(user, quoted, temp);
 

@@ -17,16 +17,9 @@ export class ReminderTask {
 
   @Cron(CronExpression.EVERY_MINUTE)
   async send() {
-    const date = DateService.dayjs();
-    const messages = await this.messageService.findReminders({
-      scheduled_at: {
-        $gte: date.startOf('minute').toDate(),
-        $lt: date.startOf('minute').add(1, 'minute').toDate(),
-      },
-    });
+    const messages = await this.messageService.findReminders();
     for (const message of messages) {
-      this.senderService.remindToUser(message['user'].id, message);
-
+      const reminder = await this.senderService.remind(message);
       // TODO remove
       await new Promise(r => setTimeout(r, 500));
     }

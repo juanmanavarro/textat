@@ -35,6 +35,7 @@ import * as path from 'node:path';
 import { LanguageCommand } from './commands/language.command';
 import { ReminderPayloadService } from './services/reminder-payload.service';
 import { MessageListener } from './listeners/message.listener';
+import { InlineCommandListener } from './listeners/inline-command.listener';
 
 @Module({
   imports: [
@@ -79,6 +80,7 @@ import { MessageListener } from './listeners/message.listener';
     PostListener,
     QuoteListener,
     CommandListener,
+    InlineCommandListener,
     ConversationListener,
     ReactionListener,
     WhatsappService,

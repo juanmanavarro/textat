@@ -7,9 +7,7 @@ export class ReminderPayloadService {
     return {
       type: "text",
       text: {
-        body: `${message.text}
-
-⏰ ${FormatService.italic('Recordatorio')}`
+        body: `${message.text}\n\n⏰`
       },
     }
   }

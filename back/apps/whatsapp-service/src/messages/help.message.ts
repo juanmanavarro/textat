@@ -12,11 +12,14 @@ export class HelpMessage {
     return [
       "Here's what you can do:",
       '',
-      FormatService.command(this.translatorService.t('english'), true),
-      'To change language to English',
-      '',
-      FormatService.command(this.translatorService.t('help'), true),
+      // FormatService.command(this.translatorService.t('english'), true),
+      // 'To change language to English',
+      // '',
+      'Send ' + FormatService.command(this.translatorService.t('help'), true),
       'To display this help',
+      '',
+      'Reply with ' + FormatService.command(this.translatorService.t('repeat'), true),
+      'To repeat the notification',
     ];
   }
 }
