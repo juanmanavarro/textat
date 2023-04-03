@@ -38,10 +38,7 @@ export class MessageListener {
       return;
     }
 
-    m.scheduled_at = scheduled_at.toDate();
-    await m.save();
-
-    this.senderService.textToUser(
+    const sent = await this.senderService.textToUser(
       user.id,
       [[
         'Ok. Message scheduled for :date', {
@@ -53,5 +50,9 @@ export class MessageListener {
         },
       ]]
     );
+
+    m.scheduled_at = scheduled_at.toDate();
+    m.related_message_ids.push(sent.messages[0].id);
+    await m.save();
   }
 }

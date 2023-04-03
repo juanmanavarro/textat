@@ -24,7 +24,7 @@ export class ReminderTask {
         message.scheduled_at = DateService.dayjs(message.scheduled_at).add(1, 'minutes');
       }
 
-      message.reminder_ids.push(reminder.messages[0].id);
+      message.related_message_ids.push(reminder.messages[0].id);
       await message.save();
 
       // TODO remove

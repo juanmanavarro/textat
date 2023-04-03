@@ -57,7 +57,7 @@ export class Message {
   @Prop({
     type: [mongoose.Schema.Types.String],
   })
-  reminder_ids;
+  related_message_ids;
 }
 
 export const MessageSchema = SchemaFactory.createForClass(Message);

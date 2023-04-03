@@ -13,7 +13,7 @@ export class StopCommand {
     const stoppable = await this.messageService.findOne({
       $or: [
         { whatsapp_id: message.context.id },
-        { reminder_ids: message.context.id }
+        { related_message_ids: message.context.id }
       ],
       repeat: { $ne: null },
     });
