@@ -5,6 +5,14 @@ import { MessageService } from "@domain/message/message.service";
 import { DateService } from '@shared/services/date.service';
 import { repeatMessage } from "../messages/repeat.message";
 
+const PARAMETERS = {
+  'y' : 'y',
+  'mo': 'M',
+  'd' : 'd',
+  'h' : 'h',
+  'm' : 'm',
+};
+
 @Injectable()
 export class RepeatCommand {
   constructor(
@@ -27,7 +35,7 @@ export class RepeatCommand {
       return;
     }
 
-    if ( !rest || !['y', 'm', 'd', 'h', 'mi' ].includes(rest) ) {
+    if ( !rest || !Object.keys(PARAMETERS).includes(rest) ) {
       this.senderService.textToUser(user.id, [
         'The parameter is missing or incorrect, use it as follows:',
         '',
