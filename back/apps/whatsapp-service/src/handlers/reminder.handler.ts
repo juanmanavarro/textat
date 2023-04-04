@@ -27,18 +27,16 @@ export class ReminderHandler {
     }
     else {
       message.scheduled_at = scheduled_at.toDate();
+      const dateString = DateService.toMessage(scheduled_at.toDate(), user.language, user.timezone);
 
-      sent = await this.senderService.textToUser(
-        user.id,
-        [
-          message.text,
-          '',
-          [
-            'Message scheduled for :date',
-            { date: DateService.toMessage(scheduled_at.toDate(), user.language, user.timezone) },
-          ],
-        ]
-      );
+      const response: any = message.repeat
+        ? `🔁 Next schedule for ${dateString}`
+        : [[
+          'Message scheduled for :date',
+          { date: dateString },
+        ]];
+
+      sent = await this.senderService.textToUser(user.id, response);
 
       message.related_message_ids.push(sent.id);
       await message.save();
