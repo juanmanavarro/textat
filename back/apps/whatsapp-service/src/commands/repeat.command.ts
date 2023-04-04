@@ -30,6 +30,7 @@ export class RepeatCommand {
       ],
       scheduled_at: { $ne: null },
     });
+
     if ( !repeteable ) {
       this.senderService.textToUser(user.id, 'The message must be programmed before repeating');
       return;
@@ -45,13 +46,15 @@ export class RepeatCommand {
     }
 
     repeteable.repeat = rest;
-    await repeteable.save();
 
     // TODO improve message
-    this.senderService.textToUser(user.id, [
+    const sent = await this.senderService.textToUser(user.id, [
       `${repeteable.text}`,
       '',
       `🔁 Next schedule for ${DateService.toMessage(repeteable.scheduled_at, user.language, user.timezone)}`
     ]);
+
+    repeteable.related_message_ids.push(sent.id);
+    await repeteable.save();
   }
 }
