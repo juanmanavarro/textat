@@ -41,9 +41,14 @@ export class RepeatCommand {
       repeteable.scheduled_at = DateService.dayjs().add(1, REPEAT_PARAMETERS[rest]).toDate();
     }
 
+    if ( DateService.isPast(repeteable.scheduled_at) ) {
+      const differenceSeconds = DateService.dayjs().unix() - DateService.dayjs(repeteable.scheduled_at).unix();
+      const scheduledAt = DateService.dayjs(repeteable.scheduled_at).add(differenceSeconds, 'second');
+      repeteable.scheduled_at = scheduledAt.add(1, REPEAT_PARAMETERS[rest]);
+    }
+
     repeteable.repeat = rest;
 
-    // TODO improve message
     const sent = await this.senderService.textToUser(user.id, [
       `${repeteable.text}`,
       '',

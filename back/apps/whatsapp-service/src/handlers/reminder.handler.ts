@@ -8,18 +8,12 @@ export class ReminderHandler {
     private readonly senderService: SenderService,
   ) {}
 
-  async handle(user, post, schedule) {
+  async handle(user, message, schedule) {
     let sent = null;
 
     const scheduled_at = DateService.parse(schedule, user.timezone);
 
-    if ( post['is_media'] ) {
-      sent = await this.senderService.textToUser(
-        user.id,
-        'Sorry, at the moment it is not possible to set reminders for messages of this type'
-      );
-    }
-    else if ( !scheduled_at?.isValid() ) {
+    if ( !scheduled_at?.isValid() ) {
       sent = await this.senderService.textToUser(
         user.id,
         [[ 'Sorry, I do not recognize :schedule', { schedule: `*${schedule}*` } ]],
@@ -32,12 +26,12 @@ export class ReminderHandler {
       );
     }
     else {
-      post.scheduled_at = scheduled_at.toDate();
+      message.scheduled_at = scheduled_at.toDate();
 
       sent = await this.senderService.textToUser(
         user.id,
         [
-          post.text,
+          message.text,
           '',
           [
             'Message scheduled for :date',
@@ -46,8 +40,8 @@ export class ReminderHandler {
         ]
       );
 
-      post.related_message_ids.push(sent.id);
-      await post.save();
+      message.related_message_ids.push(sent.id);
+      await message.save();
     }
   }
 }
