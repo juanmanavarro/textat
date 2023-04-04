@@ -52,7 +52,7 @@ export class MessageListener {
     );
 
     m.scheduled_at = scheduled_at.toDate();
-    m.related_message_ids.push(sent.messages[0].id);
+    m.related_message_ids.push(sent.id);
     await m.save();
   }
 }

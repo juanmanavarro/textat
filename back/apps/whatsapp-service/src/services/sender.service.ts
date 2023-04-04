@@ -53,11 +53,9 @@ export class SenderService {
         }
       });
 
-      data.messages = [ { ...data.messages[0], ...messagePayload } ];
-
       this.logsService.message('sender.text', data);
 
-      return data;
+      return { ...data.messages[0], ...messagePayload };
     } catch (error) { ErrorHandlerService.handle(error) }
   }
 }
