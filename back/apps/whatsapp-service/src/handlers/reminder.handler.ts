@@ -42,7 +42,7 @@ export class ReminderHandler {
           [
             'Message scheduled for :date',
             { date: DateService.toMessage(scheduled_at.toDate(), user.language, user.timezone) },
-          ]
+          ],
         ]
       );
 
