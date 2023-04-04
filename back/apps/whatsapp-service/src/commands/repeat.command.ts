@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { SenderService } from "../services/sender.service";
 import { ParserService } from "../services/parser.service";
 import { MessageService } from "@domain/message/message.service";
-import { FormatService } from '../services/format.service';
+import { DateService } from '@shared/services/date.service';
 import { repeatMessage } from "../messages/repeat.message";
 
 @Injectable()
@@ -40,6 +40,10 @@ export class RepeatCommand {
     await repeteable.save();
 
     // TODO improve message
-    this.senderService.textToUser(user.id, 'The message will be repeated');
+    this.senderService.textToUser(user.id, [
+      `${repeteable.text}`,
+      '',
+      `🔁 Next schedule for ${DateService.toMessage(repeteable.scheduled_at, user.language, user.timezone)}`
+    ]);
   }
 }
