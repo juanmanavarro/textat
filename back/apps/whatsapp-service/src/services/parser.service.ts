@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ErrorHandlerService } from '@shared/services/error-handler.service';
 import { Configuration, OpenAIApi } from 'openai';
+import parseTemporalSentence from '../prompts/parse-temporal-sentence';
 
 @Injectable()
 export class ParserService {
@@ -21,15 +22,7 @@ export class ParserService {
     try {
       const response = await this.openai.createCompletion({
         model: "text-davinci-003",
-        prompt: `Vamos a parsear frases. La respuesta debe de ser un JSON valido con las siguientes propiedades:
-          temp: la parte de la frase que se refiere al tiempo, es decir, la indicacion temporal de la frase
-          rest: la parte restante de la frase. Lo que queda al extraer la indicacion temporal de la frase original
-          frase: "tengo dentista mañana a las 10"
-          respuesta: { "temp": "mañana a las 10", "rest": "tengo dentista" }
-          frase: "ayer cene con mi amigo por la noche"
-          respuesta: { "temp": "ayer por la noche", "rest": "cene con mi amigo" }
-          frase: "${message}"
-          respuesta:`,
+        prompt: parseTemporalSentence(message),
         temperature: 0,
         max_tokens: 2000,
       });
