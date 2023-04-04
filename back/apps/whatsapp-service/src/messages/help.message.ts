@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { FormatService } from '../services/format.service';
 import { TranslatorService } from '../services/translator.service';
+import { repeatMessage } from './repeat.message';
 
 @Injectable()
 export class HelpMessage {
@@ -19,7 +20,9 @@ export class HelpMessage {
       'To display this help',
       '',
       'Reply with ' + FormatService.command(this.translatorService.t('repeat'), true),
-      'To repeat the notification',
+      'To repeat the notification:',
+      '',
+      repeatMessage,
     ];
   }
 }

@@ -3,6 +3,7 @@ import { SenderService } from "../services/sender.service";
 import { ParserService } from "../services/parser.service";
 import { MessageService } from "@domain/message/message.service";
 import { FormatService } from '../services/format.service';
+import { repeatMessage } from "../messages/repeat.message";
 
 @Injectable()
 export class RepeatCommand {
@@ -30,11 +31,7 @@ export class RepeatCommand {
       this.senderService.textToUser(user.id, [
         'The parameter is missing or incorrect, use it as follows:',
         '',
-        `${FormatService.bold('/repeat y')} to be repeated every year`,
-        `${FormatService.bold('/repeat m')} to be repeated every month`,
-        `${FormatService.bold('/repeat d')} to be repeated every day`,
-        `${FormatService.bold('/repeat h')} to be repeated every hout`,
-        `${FormatService.bold('/repeat mi')} to be repeated every minute`,
+        repeatMessage,
       ]);
       return;
     }
