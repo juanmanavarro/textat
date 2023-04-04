@@ -4,6 +4,7 @@ import { SenderService } from '../services/sender.service';
 import { FormatService } from '../services/format.service';
 import { LanguageCommand } from '../commands/language.command';
 import { Commands, InlineCommands } from '../whastapp-service.constants';
+import { ParserService } from '../services/parser.service';
 
 @Injectable()
 export class CommandListener {
@@ -14,22 +15,22 @@ export class CommandListener {
   ) {}
 
   async handle(user, message) {
-    const com = message.text.body.slice(1);
+    const { command } = ParserService.command(message);
 
-    if ( Object.values(InlineCommands).includes(com) ) {
+    if ( Object.values(InlineCommands).includes(command) ) {
       this.senderService.textToUser(user.id, 'This command only inline');
       return;
     }
 
-    if ( [Commands.AYUDA, Commands.HELP].includes(com) ) {
+    if ( [Commands.AYUDA, Commands.HELP].includes(command) ) {
       this.helpCommand.execute(user);
     }
-    else if ( ['español', 'english'].includes(com) ) {
-      this.languageCommand.execute(user, com);
+    else if ( ['español', 'english'].includes(command) ) {
+      this.languageCommand.execute(user, command);
     }
     else {
       this.senderService.textToUser(user.id, [
-        [ 'Unkonwn command :command', { command: FormatService.bold(com) } ],
+        [ 'Unkonwn command :command', { command: FormatService.bold(command) } ],
       ]);
     }
   }
