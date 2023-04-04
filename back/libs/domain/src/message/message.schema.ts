@@ -58,6 +58,11 @@ export class Message {
     type: [mongoose.Schema.Types.String],
   })
   related_message_ids;
+
+  @Prop({
+    type: mongoose.Schema.Types.String,
+  })
+  sent_text;
 }
 
 export const MessageSchema = SchemaFactory.createForClass(Message);

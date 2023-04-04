@@ -27,20 +27,14 @@ export class MessageListener {
       whatsapp_id: message.id,
       type: message.type,
       schedule: temp || null,
+      sent_text: message.text.body,
     });
 
     const scheduled_at = DateService.parse(temp, user.timezone);
-    if ( !temp || !scheduled_at ) {
-      this.senderService.textToUser(
-        user.id,
-        'I don\'t understand when you want to schedule this last message. To schedule it, please reply to it and indicate when you want to receive it. Thank you!'
-      );
-      return;
-    }
 
-    const sent = await this.senderService.textToUser(
-      user.id,
-      [[
+    const response: any = ( !temp || !scheduled_at )
+      ? 'I don\'t understand when you want to schedule this last message. To schedule it, please reply to it and indicate when you want to receive it'
+      : [[
         'Ok. Message scheduled for :date', {
           date: DateService.toMessage(
             scheduled_at.toDate(),
@@ -48,10 +42,11 @@ export class MessageListener {
             user.timezone,
           ),
         },
-      ]]
-    );
+      ]];
 
-    m.scheduled_at = scheduled_at.toDate();
+    const sent = await this.senderService.textToUser(user.id, response);
+
+    m.scheduled_at = scheduled_at?.toDate();
     m.related_message_ids.push(sent.id);
     await m.save();
   }
