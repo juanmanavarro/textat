@@ -4,14 +4,7 @@ import { ParserService } from "../services/parser.service";
 import { MessageService } from "@domain/message/message.service";
 import { DateService } from '@shared/services/date.service';
 import { repeatMessage } from "../messages/repeat.message";
-
-const PARAMETERS = {
-  'y' : 'y',
-  'mo': 'M',
-  'd' : 'd',
-  'h' : 'h',
-  'm' : 'm',
-};
+import { REPEAT_PARAMETERS } from "../whastapp-service.constants";
 
 @Injectable()
 export class RepeatCommand {
@@ -36,7 +29,7 @@ export class RepeatCommand {
       return;
     }
 
-    if ( !rest || !Object.keys(PARAMETERS).includes(rest) ) {
+    if ( !rest || !Object.keys(REPEAT_PARAMETERS).includes(rest) ) {
       this.senderService.textToUser(user.id, [
         'The parameter is missing or incorrect, use it as follows:',
         '',
