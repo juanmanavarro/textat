@@ -18,6 +18,11 @@ export class StopCommand {
       repeat: { $ne: null },
     });
 
+    if ( !stoppable ) {
+      this.senderService.textToUser(user.id, 'The message will stop repeating');
+      return;
+    }
+
     stoppable.repeat = null;
     await stoppable.save();
 
