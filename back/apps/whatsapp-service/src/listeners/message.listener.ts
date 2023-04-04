@@ -14,11 +14,6 @@ export class MessageListener {
   ) {}
 
   async handle(user, message) {
-    if ( message.type !== MessageType.TEXT ) {
-      this.senderService.textToUser(user.id, 'For now I can only schedule text messages');
-      return;
-    }
-
     const { temp, rest } = await this.parserService.parse(message.text.body);
 
     const m = await this.messageService.firstOrCreate({

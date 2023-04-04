@@ -21,11 +21,10 @@ export class RepeatCommand {
         { whatsapp_id: message.context.id, },
         { related_message_ids: message.context.id },
       ],
-      scheduled_at: { $ne: null },
     });
 
     if ( !repeteable ) {
-      this.senderService.textToUser(user.id, 'The message must be programmed before repeating');
+      this.senderService.textToUser(user.id, 'This message cannot be repeated');
       return;
     }
 
@@ -36,6 +35,10 @@ export class RepeatCommand {
         repeatMessage,
       ]);
       return;
+    }
+
+    if ( !repeteable.scheduled_at ) {
+      repeteable.scheduled_at = DateService.dayjs().add(1, REPEAT_PARAMETERS[rest]).toDate();
     }
 
     repeteable.repeat = rest;
