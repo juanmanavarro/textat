@@ -20,14 +20,16 @@ export class ParserService {
 
   async parse(message) {
     try {
-      const response = await this.openai.createCompletion({
-        model: "text-davinci-003",
-        prompt: parseTemporalSentence(message),
+      const response = await this.openai.createChatCompletion({
+        model: "gpt-3.5-turbo",
+        messages: [
+          { role: 'user', content: parseTemporalSentence(message) }
+        ],
         temperature: 0,
         max_tokens: 2000,
       });
 
-      const json = response.data.choices[0].text.trim();
+      const json = response.data.choices[0].message.content.trim();
 
       return JSON.parse(json);
     } catch (error) {
