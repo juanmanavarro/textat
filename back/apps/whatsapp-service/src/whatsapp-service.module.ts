@@ -24,7 +24,6 @@ import { WhatsappService } from './whatsapp.service';
 import { ChangePasswordConversation } from './conversations/change-password.conversation';
 import { WhatsappServiceSubscriber } from './whatsapp-service.subscriber';
 import { RecoverPasswordConversation } from './conversations/recover-password.conversation';
-import { CommanderService } from './services/commander.service';
 import { SharedModule } from '@shared';
 import { TrialTask } from './tasks/trial.task';
 import { ReminderHandler } from './handlers/reminder.handler';
@@ -88,7 +87,6 @@ import { StopCommand } from './commands/stop.command';
     ConversationListener,
     ReactionListener,
     WhatsappService,
-    CommanderService,
     // handlers
     ReminderHandler,
     TranslatorService,
