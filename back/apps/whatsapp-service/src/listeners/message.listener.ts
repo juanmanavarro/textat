@@ -34,15 +34,20 @@ export class MessageListener {
 
     const response: any = ( !temp || !scheduled_at )
       ? 'I don\'t understand when you want to schedule this last message. To schedule it, please reply to it and indicate when you want to receive it'
-      : [[
-        'Ok. Message scheduled for :date', {
-          date: DateService.toMessage(
-            scheduled_at.toDate(),
-            user.language,
-            user.timezone,
-          ),
-        },
-      ]];
+      : [
+        rest,
+        '',
+        [
+          'Message scheduled for :date',
+          {
+            date: DateService.toMessage(
+              scheduled_at.toDate(),
+              user.language,
+              user.timezone,
+            ),
+          },
+        ]
+      ];
 
     const sent = await this.senderService.textToUser(user.id, response);
 
