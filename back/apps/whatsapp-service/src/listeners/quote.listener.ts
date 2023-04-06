@@ -31,7 +31,7 @@ export class QuoteListener {
     const { temp } = await this.parserService.parse(message.text.body);
 
     if ( !temp ) {
-      this.senderService.textToUser(user.id, 'Not recognize');
+      this.senderService.textToUser(user.id, [[ 'Sorry, I do not recognize :schedule', { schedule: `*${message.text.body}*` } ]]);
       return;
     }
 
@@ -46,12 +46,22 @@ export class QuoteListener {
     }
     else {
       message.scheduled_at = scheduled_at.toDate();
-      const dateString = DateService.toMessage(scheduled_at.toDate(), user.language, user.timezone);
+      const dateString = DateService.toMessage(
+        scheduled_at.toDate(),
+        user.language,
+        user.timezone,
+      );
 
       response = message.repeat
-        ? `🔁 Next schedule for ${dateString}`
+        ? [
+          '🔁',
+          [
+            'Next schedule for :date',
+            { date: dateString }
+          ],
+        ]
         : [
-          message.text,
+          message.text.body,
           '',
           [
             'Message scheduled for :date',

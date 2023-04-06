@@ -24,6 +24,10 @@ export class HelpMessage {
       this.translatorService.t('To repeat the notification'),
       '',
       this.repeatMessage.body(),
+      '',
+      FormatService.command(this.translatorService.t('stop'), true) + ` ${this.translatorService.t('(as a reply to a message)')}`,
+      this.translatorService.t('To stop the notification from repeating'),
+      '',
     ];
   }
 }

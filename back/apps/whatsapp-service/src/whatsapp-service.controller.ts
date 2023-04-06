@@ -25,9 +25,6 @@ export class WhatsappServiceController {
     const { message, contact } = this.notificationService.parse(body);
     if ( !message || !contact ) return res.sendStatus(HttpStatus.OK);
 
-    console.log(message);
-
-
     this.logsService.message('whatsapp.webhook', {
       sent: message,
       contact: {

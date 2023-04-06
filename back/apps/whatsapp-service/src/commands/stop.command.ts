@@ -19,14 +19,13 @@ export class StopCommand {
     });
 
     if ( !stoppable ) {
-      this.senderService.textToUser(user.id, 'The message will stop repeating');
+      this.senderService.textToUser(user.id, 'This message will no longer be repeated');
       return;
     }
 
     stoppable.repeat = null;
     await stoppable.save();
 
-    // TODO improve message
-    this.senderService.textToUser(user.id, 'The message will stop repeating');
+    this.senderService.textToUser(user.id, 'This message will no longer be repeated');
   }
 }
