@@ -1,9 +1,21 @@
+import { Injectable } from "@nestjs/common";
 import { FormatService } from "../services/format.service";
+import { REPEAT_PARAMETERS } from "../whastapp-service.constants";
+import { TranslatorService } from "../services/translator.service";
 
-export default [
-  `${FormatService.bold('/repeat m')} to be repeated every minute`,
-  `${FormatService.bold('/repeat h')} to be repeated every hour`,
-  `${FormatService.bold('/repeat d')} to be repeated every day`,
-  `${FormatService.bold('/repeat mo')} to be repeated every month`,
-  `${FormatService.bold('/repeat y')} to be repeated every year`,
-].join('\n');
+@Injectable()
+export class RepeatMessage {
+  constructor(
+    private readonly translatorService: TranslatorService,
+  ) {}
+
+  body() {
+    return Object.keys(REPEAT_PARAMETERS).map(r => {
+      return this.translatorService.t(`:command to be repeated every :period`, {
+        command: FormatService.command(this.translatorService.t('repeat :p', { p: r }), true),
+        period: this.translatorService.t(REPEAT_PARAMETERS[r]),
+        p: r,
+      });
+    }).join('\n');
+  }
+}

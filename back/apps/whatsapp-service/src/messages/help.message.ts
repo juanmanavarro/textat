@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { FormatService } from '../services/format.service';
 import { TranslatorService } from '../services/translator.service';
-import repeatMessage from './repeat.message';
+import { RepeatMessage } from './repeat.message';
 
 @Injectable()
 export class HelpMessage {
   constructor(
+    private readonly repeatMessage: RepeatMessage,
     private readonly translatorService: TranslatorService,
   ) {}
 
@@ -19,9 +20,10 @@ export class HelpMessage {
       FormatService.command(this.translatorService.t('help'), true),
       this.translatorService.t('To display this help'),
       '',
-      '- Reply with ' + FormatService.command(this.translatorService.t('repeat'), true) + ' to repeat the notification',
+      FormatService.command(this.translatorService.t('repeat'), true) + ` ${this.translatorService.t('(as a reply to a message)')}`,
+      this.translatorService.t('To repeat the notification'),
       '',
-      repeatMessage,
+      this.repeatMessage.body(),
     ];
   }
 }

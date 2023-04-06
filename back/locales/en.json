@@ -1,8 +1,18 @@
 {
     "Welcome to TextAt. You can start scheduling messages now. Try sending \"let me know in a minute\" or send :command to see what else you can do": "Welcome to TextAt. You can start scheduling messages now. Try sending \"let me know in a minute\" or send :command to see what else you can do",
-
     "english": "español",
     "To change language to English": "Para cambiar el lenguaje a español",
+    ":command to be repeated every :period": ":command to be repeated every :period",
+    "year": "year",
+    "month": "month",
+    "week": "week",
+    "day": "day",
+    "hour": "hour",
+    "minute": "minute",
+    "To repeat the notification": "To repeat the notification",
+    "(as a reply to a message)": "(as a reply to a message)",
+    "repeat :p": "repeat :p",
+    "repeat": "repeat",
 
     "Access your TextPocket here:": "Access your TextPocket here:",
     "Unkonwn command :command": "Unkonwn command :command",

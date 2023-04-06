@@ -1,6 +1,17 @@
 {
     "Welcome to TextAt. You can start scheduling messages now. Try sending \"let me know in a minute\" or send :command to see what else you can do": "Bienvenido a TextAt. Ya puedes empezar a programar mensajes. Prueba enviando \"avisame en un minuto\" o envia :command para ver que mas puedes hacer",
     "To display this help": "Para visualizar esta ayuda",
+    ":command to be repeated every :period": ":command para repetir cada :period",
+    "year": "año",
+    "month": "mes",
+    "week": "semana",
+    "day": "día",
+    "hour": "hora",
+    "minute": "minuto",
+    "To repeat the notification": "Para repetir la notificación",
+    "(as a reply to a message)": "(como respuesta a un mensaje)",
+    "repeat :p": "repite :p",
+    "repeat": "repite",
 
     "Access your TextPocket here:": "Accede a TextPocket desde aquí:",
     "Unkonwn command :command": "No reconozco el comando :command",
