@@ -70,6 +70,9 @@ export class User {
     type: mongoose.Schema.Types.String,
   })
   language;
+
+  //
+  is_new;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

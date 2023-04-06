@@ -3,8 +3,8 @@ import { SenderService } from "../services/sender.service";
 import { ParserService } from "../services/parser.service";
 import { MessageService } from "@domain/message/message.service";
 import { DateService } from '@shared/services/date.service';
-import { repeatMessage } from "../messages/repeat.message";
 import { REPEAT_PARAMETERS } from "../whastapp-service.constants";
+import repeatMessage from "../messages/repeat.message";
 
 @Injectable()
 export class RepeatCommand {

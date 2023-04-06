@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { FormatService } from '../services/format.service';
 import { TranslatorService } from '../services/translator.service';
-import { repeatMessage } from './repeat.message';
+import repeatMessage from './repeat.message';
 
 @Injectable()
 export class HelpMessage {
