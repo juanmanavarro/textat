@@ -16,11 +16,9 @@ export class HelpMessage {
       // FormatService.command(this.translatorService.t('english'), true),
       // 'To change language to English',
       // '',
-      'Send ' + FormatService.command(this.translatorService.t('help'), true),
-      'To display this help',
+      '- Send ' + FormatService.command(this.translatorService.t('help'), true) + ' to display this help',
       '',
-      'Reply with ' + FormatService.command(this.translatorService.t('repeat'), true),
-      'To repeat the notification:',
+      '- Reply with ' + FormatService.command(this.translatorService.t('repeat'), true) + ' to repeat the notification',
       '',
       repeatMessage,
     ];
