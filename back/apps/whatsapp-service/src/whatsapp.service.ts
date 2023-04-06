@@ -4,7 +4,7 @@ import { MessageListener } from './listeners/message.listener';
 import { CommandListener } from './listeners/command.listener';
 import { InlineCommandListener } from './listeners/inline-command.listener';
 import { SenderService } from './services/sender.service';
-import { MessageType } from './services/post-mapper.service';
+import { MessageType } from './whastapp-service.constants';
 
 @Injectable()
 export class WhatsappService {

@@ -2,7 +2,6 @@ import { MessageService } from '@domain/message/message.service';
 import { Injectable } from '@nestjs/common';
 import { ParserService } from '../services/parser.service';
 import { DateService } from '@shared/services/date.service';
-import { MessageType } from 'apps/whatsapp-service/src/services/post-mapper.service';
 import { SenderService } from '../services/sender.service';
 
 @Injectable()

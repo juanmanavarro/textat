@@ -3,7 +3,6 @@ import { WhatsappServiceController } from './whatsapp-service.controller';
 import { ConfigModule } from '@nestjs/config';
 import configuration from '../../../config';
 import { DomainModule } from '@domain';
-import { PostMapperService } from './services/post-mapper.service';
 import { TransportModule } from '@transport/transport';
 import { SenderService } from './services/sender.service';
 import { NotificationService } from './services/notification.service';
@@ -62,7 +61,6 @@ import { StopCommand } from './commands/stop.command';
     ReminderTask,
     TrialTask,
     // services
-    PostMapperService,
     SenderService,
     NotificationService,
     ParserService,
