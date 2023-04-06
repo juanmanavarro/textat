@@ -25,6 +25,9 @@ export class WhatsappServiceController {
     const { message, contact } = this.notificationService.parse(body);
     if ( !message || !contact ) return res.sendStatus(HttpStatus.OK);
 
+    console.log(message);
+
+
     this.logsService.message('whatsapp.webhook', {
       sent: message,
       contact: {
@@ -58,7 +61,7 @@ export class WhatsappServiceController {
         user.id,
         [[`Welcome to TextAt. You can start scheduling messages now. Try sending "let me know in a minute" or send :command to see what else you can do`, { command: FormatService.command('help', true) }]]
       );
-      return;
+      return res.sendStatus(HttpStatus.OK);
     }
 
     await this.whatsappService.listen(user, message);
