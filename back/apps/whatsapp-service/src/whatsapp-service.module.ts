@@ -26,7 +26,6 @@ import { WhatsappServiceSubscriber } from './whatsapp-service.subscriber';
 import { RecoverPasswordConversation } from './conversations/recover-password.conversation';
 import { SharedModule } from '@shared';
 import { TrialTask } from './tasks/trial.task';
-import { ReminderHandler } from './handlers/reminder.handler';
 import { LocalizationModule } from "@squareboat/nestjs-localization";
 import { TranslatorService } from './services/translator.service';
 import { HelpMessage } from './messages/help.message';
@@ -87,8 +86,7 @@ import { StopCommand } from './commands/stop.command';
     ConversationListener,
     ReactionListener,
     WhatsappService,
-    // handlers
-    ReminderHandler,
+    //
     TranslatorService,
     HelpMessage,
     ReminderPayloadService,
