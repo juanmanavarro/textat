@@ -1,6 +1,5 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
-import { CommanderService } from './services/commander.service';
 import { SenderService } from './services/sender.service';
 import { FormatService } from './services/format.service';
 import { DateService } from '@shared/services/date.service';
@@ -8,14 +7,8 @@ import { DateService } from '@shared/services/date.service';
 @Controller()
 export class WhatsappServiceSubscriber {
   constructor(
-    private readonly commanderService: CommanderService,
     private readonly senderService: SenderService,
   ) {}
-
-  @MessagePattern(['password:recover'])
-  async onMessage(@Payload() payload) {
-    this.commanderService.send(payload.user, 'recover');
-  }
 
   @MessagePattern('stripe:subscription')
   async onSubscription(@Payload() payload) {

@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { FormatService } from './format.service';
 
 @Injectable()
 export class ReminderPayloadService {
@@ -7,9 +6,7 @@ export class ReminderPayloadService {
     return {
       type: "text",
       text: {
-        body: `${message.text}
-
-⏰ ${FormatService.italic('Recordatorio')}`
+        body: `${message.text}\n\n⏰`
       },
     }
   }

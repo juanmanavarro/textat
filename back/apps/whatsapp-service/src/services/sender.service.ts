@@ -5,6 +5,7 @@ import { LogsService } from '@shared/services/logs.service';
 import { UserService } from '@domain/user/user.service';
 import { TranslatorService } from './translator.service';
 import { ReminderPayloadService } from './reminder-payload.service';
+import { ErrorHandlerService } from '@shared/services/error-handler.service';
 
 @Injectable()
 export class SenderService {
@@ -29,14 +30,14 @@ export class SenderService {
       return this.translatorService.t(m);
     }).join('\n');
 
-    this.send(user.phone, ReminderPayloadService.fromString(messageToSend));
+    return this.send(user.phone, ReminderPayloadService.fromString(messageToSend));
   }
 
-  async remindToUser(userId: string, message) {
-    const user = await this.userService.findOne({ _id: userId });
-    if ( !user ) throw new Error("[SenderService.remindToUser] User not found");
+  async remind(message) {
+    const user = await this.userService.findOne({ _id: message.user.id });
+    if ( !user ) throw new Error("[SenderService.remind] User not found");
 
-    this.send(user.phone, ReminderPayloadService.fromMessage(message));
+    return this.send(user.phone, ReminderPayloadService.fromMessage(message));
   }
 
   private async send(waId, messagePayload) {
@@ -52,11 +53,9 @@ export class SenderService {
         }
       });
 
-      this.logsService.message('sender.text', { ...data, meta: messagePayload });
+      this.logsService.message('sender.text', data);
 
-      return data;
-    } catch (error) {
-      console.log(error.response.data.error);
-    }
+      return { ...data.messages[0], ...messagePayload };
+    } catch (error) { ErrorHandlerService.handle(error) }
   }
 }

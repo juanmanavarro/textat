@@ -1,6 +1,5 @@
 import { Injectable } from "@nestjs/common";
 import { SenderService } from "../services/sender.service";
-import { __ } from "@squareboat/nestjs-localization";
 import { HelpMessage } from '../messages/help.message';
 
 @Injectable()
