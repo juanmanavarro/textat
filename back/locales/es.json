@@ -1,5 +1,6 @@
 {
     "Welcome to TextAt. You can start scheduling messages now. Try sending \"let me know in a minute\" or send :command to see what else you can do": "Bienvenido a TextAt. Ya puedes empezar a programar mensajes. Prueba enviando \"avisame en un minuto\" o envia :command para ver que mas puedes hacer",
+    "To display this help": "Para visualizar esta ayuda",
 
     "Access your TextPocket here:": "Accede a TextPocket desde aquí:",
     "Unkonwn command :command": "No reconozco el comando :command",
@@ -12,7 +13,7 @@
     "The password must be at least 8 characters long": "La contraseña debe tener al menos 8 caracteres",
     "Registered! You can start sharing now 🙂": "¡Registrado! Ya puedes empezar a compartir 🙂",
     "Here's what you can do:": "Esto es lo que puedes hacer:",
-    "To display this help": "Para visualizar esta ayuda",
+
     "To access your TextPocket": "Para acceder a tu TextPocket",
     "To change the password": "Para cambiar la contraseña",
     "To contact us": "Para ponerte en contacto con nosotros",

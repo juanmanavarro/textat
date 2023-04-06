@@ -59,7 +59,9 @@ export class WhatsappServiceController {
     if ( user.is_new ) {
       this.senderService.textToUser(
         user.id,
-        [[`Welcome to TextAt. You can start scheduling messages now. Try sending "let me know in a minute" or send :command to see what else you can do`, { command: FormatService.command('help', true) }]]
+        [[`Welcome to TextAt. You can start scheduling messages now. Try sending "let me know in a minute" or send :command to see what else you can do`, {
+          command: FormatService.command(this.translatorService.t('help'), true)
+        }]]
       );
       return res.sendStatus(HttpStatus.OK);
     }
