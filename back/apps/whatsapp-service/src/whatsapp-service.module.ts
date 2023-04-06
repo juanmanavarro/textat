@@ -16,7 +16,6 @@ import { HelpCommand } from './commands/help.command';
 import { HealthCheckController } from './health-check.controller';
 import { QuoteListener } from './listeners/quote.listener';
 import { CommandListener } from './listeners/command.listener';
-import { ReactionListener } from './listeners/reaction.listener';
 import { WhatsappService } from './whatsapp.service';
 import { WhatsappServiceSubscriber } from './whatsapp-service.subscriber';
 import { SharedModule } from '@shared';
@@ -73,7 +72,6 @@ import { StopCommand } from './commands/stop.command';
     QuoteListener,
     CommandListener,
     InlineCommandListener,
-    ReactionListener,
     WhatsappService,
     //
     TranslatorService,
