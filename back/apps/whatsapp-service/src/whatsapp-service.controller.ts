@@ -5,6 +5,8 @@ import { WhatsappService } from './whatsapp.service';
 import { LogsService } from '@shared/services/logs.service';
 import { HasherService } from '@shared/services/hasher.service';
 import { TranslatorService } from './services/translator.service';
+import { SenderService } from './services/sender.service';
+import { FormatService } from './services/format.service';
 var DetectLanguage = require('detectlanguage');
 
 @Controller('whatsapp')
@@ -15,12 +17,16 @@ export class WhatsappServiceController {
     private readonly whatsappService: WhatsappService,
     private readonly logsService: LogsService,
     private readonly translatorService: TranslatorService,
+    private readonly senderService: SenderService,
   ) {}
 
   @Post('/webhook')
   async webhook(@Body() body, @Response() res) {
     const { message, contact } = this.notificationService.parse(body);
     if ( !message || !contact ) return res.sendStatus(HttpStatus.OK);
+
+    console.log(message);
+
 
     this.logsService.message('whatsapp.webhook', {
       sent: message,
@@ -49,6 +55,14 @@ export class WhatsappServiceController {
     }
 
     this.translatorService.setLanguage(user.language);
+
+    if ( user.is_new ) {
+      this.senderService.textToUser(
+        user.id,
+        [[`Welcome to TextAt. You can start scheduling messages now. Try sending "let me know in a minute" or send :command to see what else you can do`, { command: FormatService.command('help', true) }]]
+      );
+      return res.sendStatus(HttpStatus.OK);
+    }
 
     await this.whatsappService.listen(user, message);
 
