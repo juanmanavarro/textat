@@ -17,6 +17,8 @@ export class WhatsappService {
   ) {}
 
   async listen(user, message) {
+    if ( message.type === MessageType.REACTION ) return;
+
     if ( message.type !== MessageType.TEXT ) {
       this.senderService.textToUser(user.id, 'For now I can only schedule text messages');
       return;

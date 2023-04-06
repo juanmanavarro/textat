@@ -12,6 +12,7 @@ export enum MessageType {
   LINK     = 'link',
   TEXT     = 'text',
   UNKNOWN  = 'unknown',
+  REACTION = 'reaction',
 };
 
 @Injectable()
