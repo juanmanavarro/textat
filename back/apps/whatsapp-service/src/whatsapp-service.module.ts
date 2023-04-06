@@ -7,10 +7,8 @@ import { TransportModule } from '@transport/transport';
 import { SenderService } from './services/sender.service';
 import { NotificationService } from './services/notification.service';
 import { ParserService } from './services/parser.service';
-import { MediaService } from './services/media.service';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ReminderTask } from './tasks/reminder.task';
-import { UrlService } from './services/url.service';
 import { HelpCommand } from './commands/help.command';
 import { HealthCheckController } from './health-check.controller';
 import { QuoteListener } from './listeners/quote.listener';
@@ -18,7 +16,6 @@ import { CommandListener } from './listeners/command.listener';
 import { WhatsappService } from './whatsapp.service';
 import { WhatsappServiceSubscriber } from './whatsapp-service.subscriber';
 import { SharedModule } from '@shared';
-import { TrialTask } from './tasks/trial.task';
 import { LocalizationModule } from "@squareboat/nestjs-localization";
 import { TranslatorService } from './services/translator.service';
 import { HelpMessage } from './messages/help.message';
@@ -59,13 +56,10 @@ import { StopCommand } from './commands/stop.command';
     StopCommand,
     // tasks
     ReminderTask,
-    TrialTask,
     // services
     SenderService,
     NotificationService,
     ParserService,
-    MediaService,
-    UrlService,
     // listeners
     QuoteListener,
     CommandListener,

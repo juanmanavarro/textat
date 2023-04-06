@@ -4,7 +4,6 @@ var { transform } = require("node-json-transform");
 @Injectable()
 export class NotificationService {
   parse(notification) {
-    // console.log(JSON.stringify(notification, null, 2));
     const map = {
       list: 'entry.0.changes',
       item: {
