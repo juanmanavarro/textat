@@ -15,7 +15,6 @@ import { ReminderTask } from './tasks/reminder.task';
 import { UrlService } from './services/url.service';
 import { HelpCommand } from './commands/help.command';
 import { HealthCheckController } from './health-check.controller';
-import { PostListener } from './listeners/post.listener';
 import { QuoteListener } from './listeners/quote.listener';
 import { CommandListener } from './listeners/command.listener';
 import { ConversationListener } from './listeners/conversation.listener';
@@ -79,7 +78,6 @@ import { StopCommand } from './commands/stop.command';
     MediaService,
     UrlService,
     // listeners
-    PostListener,
     QuoteListener,
     CommandListener,
     InlineCommandListener,
