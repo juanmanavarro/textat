@@ -29,6 +29,5 @@
     "Cannot be scheduled, I cannot travel to the past yet 😉": "Cannot be scheduled, I cannot travel to the past yet 😉",
     "There has been an error. Try again later": "There has been an error. Try again later",
     "To stop the notification from repeating": "To stop the notification from repeating",
-
-    "Next schedule for :date": "Next schedule for :date"
+    "Repeats every :period. Next schedule for :date": "Repeats every :period. Next schedule for :date"
 }

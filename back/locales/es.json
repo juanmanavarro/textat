@@ -29,6 +29,5 @@
     "Cannot be scheduled, I cannot travel to the past yet 😉": "No se puede programar, aún no puedo viajar al pasado 😉",
     "There has been an error. Try again later": "Ha habido algun error. Inténtalo más tarde",
     "To stop the notification from repeating": "Para parar la repetición de la notificación",
-
-    "Next schedule for :date": "Próximo recordatorio :date"
+    "Repeats every :period. Next schedule for :date": "Se repite cada :period. Próxima programación para :date"
 }

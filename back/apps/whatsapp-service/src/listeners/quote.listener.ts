@@ -3,6 +3,8 @@ import { ParserService } from "../services/parser.service";
 import { MessageService } from "@domain/message/message.service";
 import { SenderService } from "../services/sender.service";
 import { DateService } from "@shared/services/date.service";
+import { REPEAT_PARAMETERS } from "../whastapp-service.constants";
+import { TranslatorService } from "../services/translator.service";
 
 @Injectable()
 export class QuoteListener {
@@ -10,6 +12,7 @@ export class QuoteListener {
     private readonly messageService: MessageService,
     private readonly parserService: ParserService,
     private readonly senderService: SenderService,
+    private readonly translatorService: TranslatorService,
   ) {}
 
   async handle(user, message) {
@@ -56,8 +59,11 @@ export class QuoteListener {
         ? [
           '🔁',
           [
-            'Next schedule for :date',
-            { date: dateString }
+            'Repeats every :period. Next schedule for :date',
+            {
+              date: dateString,
+              period: this.translatorService.t(REPEAT_PARAMETERS[message.repeat]),
+            },
           ],
         ]
         : [
