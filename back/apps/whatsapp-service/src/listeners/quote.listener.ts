@@ -3,6 +3,8 @@ import { ParserService } from "../services/parser.service";
 import { MessageService } from "@domain/message/message.service";
 import { SenderService } from "../services/sender.service";
 import { DateService } from "@shared/services/date.service";
+import { REPEAT_PARAMETERS } from "../whastapp-service.constants";
+import { TranslatorService } from "../services/translator.service";
 
 @Injectable()
 export class QuoteListener {
@@ -10,6 +12,7 @@ export class QuoteListener {
     private readonly messageService: MessageService,
     private readonly parserService: ParserService,
     private readonly senderService: SenderService,
+    private readonly translatorService: TranslatorService,
   ) {}
 
   async handle(user, message) {
@@ -31,7 +34,7 @@ export class QuoteListener {
     const { temp } = await this.parserService.parse(message.text.body);
 
     if ( !temp ) {
-      this.senderService.textToUser(user.id, 'Not recognize');
+      this.senderService.textToUser(user.id, [[ 'Sorry, I do not recognize :schedule', { schedule: `*${message.text.body}*` } ]]);
       return;
     }
 
@@ -46,12 +49,25 @@ export class QuoteListener {
     }
     else {
       message.scheduled_at = scheduled_at.toDate();
-      const dateString = DateService.toMessage(scheduled_at.toDate(), user.language, user.timezone);
+      const dateString = DateService.toMessage(
+        scheduled_at.toDate(),
+        user.language,
+        user.timezone,
+      );
 
       response = message.repeat
-        ? `🔁 Next schedule for ${dateString}`
+        ? [
+          '🔁',
+          [
+            'Repeats every :period. Next schedule for :date',
+            {
+              date: dateString,
+              period: this.translatorService.t(REPEAT_PARAMETERS[message.repeat]),
+            },
+          ],
+        ]
         : [
-          message.text,
+          message.text.body,
           '',
           [
             'Message scheduled for :date',

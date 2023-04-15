@@ -12,6 +12,7 @@ export enum MessageType {
 };
 export enum InlineCommands {
   REPEAT = 'repeat',
+  REPITE = 'repite',
   STOP   = 'stop',
 };
 export enum Commands {
@@ -19,9 +20,10 @@ export enum Commands {
   AYUDA = 'ayuda',
 };
 export const REPEAT_PARAMETERS = {
-  'y' : 'y',
-  'mo': 'M',
-  'd' : 'd',
-  'h' : 'h',
-  'm' : 'm',
+  'y' : 'year',
+  'mo': 'month',
+  'w' : 'week',
+  'd' : 'day',
+  'h' : 'hour',
+  'm' : 'minute',
 };

@@ -26,6 +26,7 @@ import { MessageListener } from './listeners/message.listener';
 import { InlineCommandListener } from './listeners/inline-command.listener';
 import { RepeatCommand } from './commands/repeat.command';
 import { StopCommand } from './commands/stop.command';
+import { RepeatMessage } from './messages/repeat.message';
 
 @Module({
   imports: [
@@ -68,6 +69,7 @@ import { StopCommand } from './commands/stop.command';
     //
     TranslatorService,
     HelpMessage,
+    RepeatMessage,
     ReminderPayloadService,
     MessageListener,
   ],

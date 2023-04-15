@@ -20,7 +20,7 @@ export class InlineCommandListener {
     if ( Object.values(Commands).includes(command) ) {
       this.senderService.textToUser(user.id, 'This command can\'t be used inline');
     }
-    else if ( [InlineCommands.REPEAT].includes(command) ) {
+    else if ( [InlineCommands.REPEAT, InlineCommands.REPITE].includes(command) ) {
       this.repeatCommand.execute(user, message);
     }
     else if ( ['stop'].includes(command) ) {
